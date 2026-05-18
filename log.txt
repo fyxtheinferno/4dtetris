@@ -1,0 +1,2 @@
+05-18-26 A
+session goal: get SDL to give me 3d shapes & rotate them
