@@ -1,8 +1,0 @@
-05-18-26 A
-session goal: get SDL to give me 3d shapes & rotate them
-
-05-18-28 B
-about halfway to my initial goal. Jumped ship to raylib (decided SDL_GPU was too much)
-
-05-19-29
-continue working towards yesterday's goal

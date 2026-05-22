@@ -1,0 +1,27 @@
+[gd_scene format=3 uid="uid://crtucv7srw4mi"]
+
+[ext_resource type="Script" uid="uid://l5ocgnq7nnl1" path="res://waxis_ctl.gd" id="2_fj7yv"]
+[ext_resource type="PackedScene" uid="uid://bh1yfekom2mjp" path="res://block.tscn" id="2_tlwt5"]
+
+[node name="World" type="Node3D" unique_id=1590902304]
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=262054088]
+transform = Transform3D(-0.82992464, 0, 0.5578755, 0, 1, 0, -0.5578755, 0, -0.82992464, 2.7136939, 0.8457117, -3.3202877)
+
+[node name="4DSlicer" type="Node3D" parent="." unique_id=930260297]
+script = ExtResource("2_fj7yv")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1156923777]
+
+[node name="LPiece" type="Node3D" parent="." unique_id=1021996376]
+
+[node name="Block" parent="LPiece" unique_id=1531451718 instance=ExtResource("2_tlwt5")]
+
+[node name="Block2" parent="LPiece" unique_id=1307202425 instance=ExtResource("2_tlwt5")]
+offset = Vector3(1, 0, 0)
+
+[node name="Block3" parent="LPiece" unique_id=554788175 instance=ExtResource("2_tlwt5")]
+offset = Vector3(1, 1, 0)
+
+[node name="Block4" parent="LPiece" unique_id=1322386456 instance=ExtResource("2_tlwt5")]
+offset = Vector3(1, 2, 0)

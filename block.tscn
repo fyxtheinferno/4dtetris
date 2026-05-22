@@ -1,0 +1,14 @@
+[gd_scene format=3 uid="uid://bh1yfekom2mjp"]
+
+[ext_resource type="Script" uid="uid://da0kik3msqhfj" path="res://mesh_instance_3d.gd" id="1_im0tn"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fj7yv"]
+shading_mode = 0
+albedo_color = Color(0, 0.74339545, 0.7433953, 1)
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_f3sb7"]
+
+[node name="Block" type="MeshInstance3D" unique_id=1531451718]
+material_override = SubResource("StandardMaterial3D_fj7yv")
+mesh = SubResource("ArrayMesh_f3sb7")
+script = ExtResource("1_im0tn")
