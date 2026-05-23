@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://l5ocgnq7nnl1" path="res://waxis_ctl.gd" id="2_fj7yv"]
 [ext_resource type="PackedScene" uid="uid://bh1yfekom2mjp" path="res://block.tscn" id="2_tlwt5"]
+[ext_resource type="Script" uid="uid://bjh47nt0rdwui" path="res://piece.gd" id="3_tlwt5"]
 
 [node name="World" type="Node3D" unique_id=1590902304]
 
@@ -13,15 +14,20 @@ script = ExtResource("2_fj7yv")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1156923777]
 
-[node name="LPiece" type="Node3D" parent="." unique_id=1021996376]
+[node name="Piece" type="Node3D" parent="." unique_id=625205887 node_paths=PackedStringArray("block1", "block2", "block3", "block4")]
+script = ExtResource("3_tlwt5")
+block1 = NodePath("Block")
+block2 = NodePath("Block2")
+block3 = NodePath("Block3")
+block4 = NodePath("Block4")
 
-[node name="Block" parent="LPiece" unique_id=1531451718 instance=ExtResource("2_tlwt5")]
+[node name="Block" parent="Piece" unique_id=1531451718 instance=ExtResource("2_tlwt5")]
 
-[node name="Block2" parent="LPiece" unique_id=1307202425 instance=ExtResource("2_tlwt5")]
+[node name="Block2" parent="Piece" unique_id=1307202425 instance=ExtResource("2_tlwt5")]
 offset = Vector3(1, 0, 0)
 
-[node name="Block3" parent="LPiece" unique_id=554788175 instance=ExtResource("2_tlwt5")]
+[node name="Block3" parent="Piece" unique_id=554788175 instance=ExtResource("2_tlwt5")]
 offset = Vector3(1, 1, 0)
 
-[node name="Block4" parent="LPiece" unique_id=1322386456 instance=ExtResource("2_tlwt5")]
+[node name="Block4" parent="Piece" unique_id=1322386456 instance=ExtResource("2_tlwt5")]
 offset = Vector3(1, 2, 0)
