@@ -1,0 +1,27 @@
+[gd_scene format=3 uid="uid://bsd2n6go7or50"]
+
+[ext_resource type="Script" uid="uid://ddxca7mf2owaw" path="res://test_piece.gd" id="1_isp2q"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_isp2q"]
+shading_mode = 0
+albedo_color = Color(1, 1, 0, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_8iuag"]
+material = SubResource("StandardMaterial3D_isp2q")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_isp2q"]
+
+[node name="TestPiece" type="CharacterBody3D" unique_id=1254845647]
+script = ExtResource("1_isp2q")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=683577875]
+mesh = SubResource("BoxMesh_8iuag")
+
+[node name="Timer" type="Timer" parent="." unique_id=1093109572]
+wait_time = 0.1
+autostart = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=829755120]
+shape = SubResource("BoxShape3D_isp2q")
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

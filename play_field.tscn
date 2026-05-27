@@ -14,6 +14,7 @@ material = SubResource("StandardMaterial3D_jng5r")
 size = Vector2(3, 20)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fsndi"]
+shading_mode = 0
 albedo_texture = ExtResource("2_xwxci")
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_jng5r"]
@@ -66,7 +67,6 @@ shape = SubResource("BoxShape3D_xwxci")
 
 [node name="Left2" type="CollisionShape3D" parent="Collider" unique_id=1948845881]
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 2, 10, 2)
-visible = false
 shape = SubResource("BoxShape3D_xwxci")
 
 [node name="Right" type="CollisionShape3D" parent="Collider" unique_id=1945232103]
@@ -75,7 +75,6 @@ shape = SubResource("BoxShape3D_xwxci")
 
 [node name="Right2" type="CollisionShape3D" parent="Collider" unique_id=1210129979]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10, 4)
-visible = false
 shape = SubResource("BoxShape3D_xwxci")
 
 [node name="Bottom" type="CollisionShape3D" parent="Collider" unique_id=1589405683]
@@ -88,14 +87,3 @@ shape = SubResource("BoxShape3D_u5f85")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 20.095215, 0)
 shape = SubResource("BoxShape3D_fsndi")
 debug_color = Color(0.9816057, 0, 0.3736926, 0.41960785)
-
-[node name="SubViewport" type="SubViewport" parent="." unique_id=1897895925]
-size = Vector2i(130, 500)
-
-[node name="CameraPivot" type="Marker3D" parent="SubViewport" unique_id=1278793712]
-transform = Transform3D(0.70710665, -0.49999994, 0.49999994, 0, 0.7071067, 0.7071067, -0.70710665, -0.49999994, 0.49999994, 0, 0, 0)
-
-[node name="Camera3D" type="Camera3D" parent="SubViewport/CameraPivot" unique_id=1378598456]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 8.462594)
-projection = 1
-size = 18.386658
