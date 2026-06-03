@@ -1,7 +1,8 @@
 [gd_scene format=3 uid="uid://crtucv7srw4mi"]
 
+[ext_resource type="Script" uid="uid://bnadt2mhkjww1" path="res://pc_hold.gd" id="1_036b0"]
+[ext_resource type="Script" uid="uid://1y1kl0gaijyb" path="res://pc_next.gd" id="1_aqk2v"]
 [ext_resource type="Script" uid="uid://dqlf0tyel1hyk" path="res://pc_spawner.gd" id="1_fj7yv"]
-[ext_resource type="PackedScene" uid="uid://bsd2n6go7or50" path="res://test_piece.tscn" id="2_tlwt5"]
 [ext_resource type="PackedScene" uid="uid://du4rdd2mp5ylo" path="res://play_field.tscn" id="3_aqk2v"]
 [ext_resource type="MeshLibrary" uid="uid://dttcsoe0ssgqe" path="res://MeshLibrary.tres" id="4_aqk2v"]
 
@@ -46,14 +47,14 @@ layout_mode = 1
 offset_left = 924.0
 offset_top = 20.0
 offset_right = 1004.0
-offset_bottom = 470.0
+offset_bottom = 500.0
 
 [node name="Label" type="Label" parent="UserInterface/Next" unique_id=321565294]
 layout_mode = 0
 offset_left = 942.0
-offset_top = 473.0
+offset_top = 503.0
 offset_right = 988.0
-offset_bottom = 522.0
+offset_bottom = 552.0
 text = "NEXT"
 
 [node name="Score" type="Label" parent="UserInterface" unique_id=1603388555]
@@ -64,11 +65,26 @@ offset_right = 81.0
 offset_bottom = 175.0
 text = "Score: 0"
 
+[node name="PcHold" type="Control" parent="UserInterface" unique_id=1492486871]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("1_036b0")
+
+[node name="PcNext" type="Control" parent="UserInterface" unique_id=657698587]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("1_aqk2v")
+
 [node name="PcSpawner" type="Node3D" parent="." unique_id=198380515 node_paths=PackedStringArray("gridmap")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 9.5, -1)
 script = ExtResource("1_fj7yv")
-l_piece = ExtResource("2_tlwt5")
 gridmap = NodePath("../GridMap")
+
+[node name="MoveTimer" type="Timer" parent="PcSpawner" unique_id=1936100473]
+wait_time = 0.1
+autostart = true
 
 [node name="W=0" type="Node3D" parent="." unique_id=691743846]
 
@@ -82,16 +98,16 @@ offset_bottom = 520.0
 
 [node name="SubViewport" type="SubViewport" parent="W=0/SubViewportContainer" unique_id=399584605]
 handle_input_locally = false
-size = Vector2i(130, 500)
+size = Vector2i(200, 500)
 render_target_update_mode = 4
 
 [node name="CameraPivot" type="Marker3D" parent="W=0/SubViewportContainer/SubViewport" unique_id=901080331]
 transform = Transform3D(0.70710665, -0.4999999, 0.49999988, 0, 0.7071067, 0.70710665, -0.70710665, -0.4999999, 0.49999988, 0, 0, 0)
 
 [node name="Camera3D" type="Camera3D" parent="W=0/SubViewportContainer/SubViewport/CameraPivot" unique_id=2131928931]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 8.462594)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 8.463)
 projection = 1
-size = 18.386658
+size = 19.296116
 
 [node name="W=1" type="Node3D" parent="." unique_id=788477629]
 
@@ -102,3 +118,12 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0, 0.5)
 mesh_library = ExtResource("4_aqk2v")
 cell_size = Vector3(1, 1, 1)
 metadata/_editor_floor_ = Vector3(0, -10, 0)
+
+[node name="OmniLight3D" type="OmniLight3D" parent="." unique_id=1256544079]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10, 0)
+light_energy = 16.0
+omni_range = 20.272408
+
+[connection signal="held" from="PcSpawner" to="UserInterface/PcHold" method="_on_pc_spawner_held"]
+[connection signal="spawned" from="PcSpawner" to="UserInterface/PcNext" method="_on_pc_spawner_spawned"]
+[connection signal="timeout" from="PcSpawner/MoveTimer" to="PcSpawner" method="_on_move_timer_timeout"]

@@ -2,8 +2,8 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://5rulrw6kcmi1"
-path.s3tc="res://.godot/imported/grid-vertical.png-dc9a7d80bd85123062c2df6adf31bf57.s3tc.ctex"
+uid="uid://cgm0vm6llmgn8"
+path.s3tc="res://.godot/imported/grid-horizontal.png-e00dc15835309d5e2e3732ad20799674.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://grid-vertical.png"
-dest_files=["res://.godot/imported/grid-vertical.png-dc9a7d80bd85123062c2df6adf31bf57.s3tc.ctex"]
+source_file="res://textures/grid-horizontal.png"
+dest_files=["res://.godot/imported/grid-horizontal.png-e00dc15835309d5e2e3732ad20799674.s3tc.ctex"]
 
 [params]
 
