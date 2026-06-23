@@ -3,8 +3,17 @@
 [ext_resource type="Script" uid="uid://bnadt2mhkjww1" path="res://pc_hold.gd" id="1_036b0"]
 [ext_resource type="Script" uid="uid://1y1kl0gaijyb" path="res://pc_next.gd" id="1_aqk2v"]
 [ext_resource type="Script" uid="uid://dqlf0tyel1hyk" path="res://pc_spawner.gd" id="1_fj7yv"]
+[ext_resource type="Script" uid="uid://cfjuhv1kntgti" path="res://score.gd" id="1_pkg7o"]
 [ext_resource type="PackedScene" uid="uid://du4rdd2mp5ylo" path="res://play_field.tscn" id="3_aqk2v"]
 [ext_resource type="MeshLibrary" uid="uid://dttcsoe0ssgqe" path="res://MeshLibrary.tres" id="4_aqk2v"]
+[ext_resource type="PackedScene" uid="uid://c7h3rdg8ol0kx" path="res://preview.tscn" id="4_dwbse"]
+[ext_resource type="Script" uid="uid://bwpdl66k7urj1" path="res://game_over.gd" id="4_ioo17"]
+[ext_resource type="Script" uid="uid://bwf26asl4n46y" path="res://camera_pivot.gd" id="7_gbfbk"]
+
+[sub_resource type="Environment" id="Environment_036b0"]
+background_mode = 2
+ambient_light_color = Color(1, 1, 1, 1)
+ambient_light_energy = 0.6
 
 [node name="World" type="Node3D" unique_id=1590902304]
 
@@ -64,6 +73,28 @@ offset_top = 152.0
 offset_right = 81.0
 offset_bottom = 175.0
 text = "Score: 0"
+script = ExtResource("1_pkg7o")
+
+[node name="GameOver" type="Control" parent="UserInterface" unique_id=1898875617]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("4_ioo17")
+
+[node name="ColorRect" type="ColorRect" parent="UserInterface/GameOver" unique_id=1772671611]
+layout_mode = 0
+offset_right = 1024.0
+offset_bottom = 576.0
+color = Color(0.76240367, 0.76240367, 0.76240367, 0.49411765)
+
+[node name="Label" type="Label" parent="UserInterface/GameOver" unique_id=224294239]
+layout_mode = 0
+offset_right = 1024.0
+offset_bottom = 576.0
+text = "GAME OVAL
+press enter to retry"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="PcHold" type="Control" parent="UserInterface" unique_id=1492486871]
 anchors_preset = 0
@@ -81,9 +112,9 @@ script = ExtResource("1_aqk2v")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 9.5, -1)
 script = ExtResource("1_fj7yv")
 gridmap = NodePath("../GridMap")
+preview = ExtResource("4_dwbse")
 
 [node name="MoveTimer" type="Timer" parent="PcSpawner" unique_id=1936100473]
-wait_time = 0.1
 autostart = true
 
 [node name="W=0" type="Node3D" parent="." unique_id=691743846]
@@ -91,9 +122,10 @@ autostart = true
 [node name="PlayField" parent="W=0" unique_id=597231932 instance=ExtResource("3_aqk2v")]
 
 [node name="SubViewportContainer" type="SubViewportContainer" parent="W=0" unique_id=2141809360]
+z_index = -1
 offset_left = 120.0
 offset_top = 20.0
-offset_right = 250.0
+offset_right = 320.0
 offset_bottom = 520.0
 
 [node name="SubViewport" type="SubViewport" parent="W=0/SubViewportContainer" unique_id=399584605]
@@ -102,10 +134,11 @@ size = Vector2i(200, 500)
 render_target_update_mode = 4
 
 [node name="CameraPivot" type="Marker3D" parent="W=0/SubViewportContainer/SubViewport" unique_id=901080331]
-transform = Transform3D(0.70710665, -0.4999999, 0.49999988, 0, 0.7071067, 0.70710665, -0.70710665, -0.4999999, 0.49999988, 0, 0, 0)
+transform = Transform3D(0.70710665, -0.49999994, 0.4999998, 0, 0.70710665, 0.7071066, -0.70710665, -0.49999994, 0.4999998, -1, 0, -1)
+script = ExtResource("7_gbfbk")
 
 [node name="Camera3D" type="Camera3D" parent="W=0/SubViewportContainer/SubViewport/CameraPivot" unique_id=2131928931]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 8.463)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 11)
 projection = 1
 size = 19.296116
 
@@ -119,11 +152,14 @@ mesh_library = ExtResource("4_aqk2v")
 cell_size = Vector3(1, 1, 1)
 metadata/_editor_floor_ = Vector3(0, -10, 0)
 
-[node name="OmniLight3D" type="OmniLight3D" parent="." unique_id=1256544079]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10, 0)
-light_energy = 16.0
-omni_range = 20.272408
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=205494704]
+environment = SubResource("Environment_036b0")
 
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="WorldEnvironment" unique_id=1518396515]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 10.576345, 0)
+
+[connection signal="cleared" from="PcSpawner" to="UserInterface/Score" method="_on_pc_spawner_cleared"]
+[connection signal="game_over" from="PcSpawner" to="UserInterface/GameOver" method="_on_pc_spawner_game_over"]
 [connection signal="held" from="PcSpawner" to="UserInterface/PcHold" method="_on_pc_spawner_held"]
 [connection signal="spawned" from="PcSpawner" to="UserInterface/PcNext" method="_on_pc_spawner_spawned"]
 [connection signal="timeout" from="PcSpawner/MoveTimer" to="PcSpawner" method="_on_move_timer_timeout"]

@@ -1,0 +1,28 @@
+[gd_scene format=3 uid="uid://c7h3rdg8ol0kx"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_cn6ar"]
+transparency = 1
+no_depth_test = true
+shading_mode = 0
+albedo_color = Color(1, 1, 1, 0.5882353)
+
+[sub_resource type="BoxMesh" id="BoxMesh_2gyu8"]
+material = SubResource("StandardMaterial3D_cn6ar")
+size = Vector3(0.5, 0.5, 0.5)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_a13yc"]
+shading_mode = 0
+
+[sub_resource type="BoxMesh" id="BoxMesh_1esjh"]
+material = SubResource("StandardMaterial3D_a13yc")
+size = Vector3(0.5, 0.5, 0.5)
+
+[node name="Preview" type="Node3D" unique_id=181521123]
+
+[node name="NoDepthTest" type="MeshInstance3D" parent="." unique_id=1764579459]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+mesh = SubResource("BoxMesh_2gyu8")
+
+[node name="DepthTest" type="MeshInstance3D" parent="." unique_id=74783652]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+mesh = SubResource("BoxMesh_1esjh")
