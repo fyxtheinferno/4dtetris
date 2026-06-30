@@ -1,9 +1,18 @@
 extends Node3D
 
-#@export var l_piece: PackedScene
-@export var gridmap: GridMap
+@export var grids: GridMap
 @export var preview: PackedScene
+class Grids:
+	var grids: Array[GridMap]
+	func _init(p_grids: Array[GridMap]):
+		grids = p_grids
+	
+	func set_cell_item(pos: Vector4i, type: int):
+		grids[pos.w].set_cell_item(Vector3i(pos.x, pos.y, pos.z), type)
+	func get_cell_item(pos: Vector4i):
+		return grids[pos.w].get_cell_item(Vector3i(pos.x, pos.y, pos.z))
 
+var gridmap: Grids
 signal held
 signal spawned
 signal cleared
@@ -36,7 +45,7 @@ var pc_rotate_basis = {
 											Vector3(0,0,1))
 }
 
-var moving: Array[Vector3i]
+var moving: Array[Vector4i]
 var lowest: Array[Node] = []
 
 var pc_instance: Autoload.Piece
@@ -46,7 +55,7 @@ var min_pos_xz = -4
 var max_pos_xz = 0
 var min_pos_y = -10
 
-const start_offset = Vector3i(-4,8,-4)
+const start_offset = Vector4i(0,-4,8,-4)
 const gridmap_space_offset = Vector3(-1,0,-1)
 func spawn_block(custom: Autoload.Piece = null, from_hold: bool = false):
 
@@ -62,14 +71,14 @@ func spawn_block(custom: Autoload.Piece = null, from_hold: bool = false):
 	else:
 		piece = Autoload.pc_queue[0]
 
-	pivot = piece.pivot + Vector3(start_offset)
+	pivot = piece.pivot + Vector4(start_offset)
 	
-	var tmp: Array[Vector3i] = []
+	var tmp: Array[Vector4i] = []
 	for block in piece.blocks:
 		tmp.append(block + start_offset)
 	if !is_valid_position(tmp):
 		for i in tmp.size():
-			tmp[i] = tmp[i] + Vector3i(0,1,0)
+			tmp[i] = tmp[i] + Vector4i(0,0,1,0)
 		if !is_valid_position(tmp): #still not valid? 
 			set_process(false)
 			game_over.emit()
@@ -88,14 +97,14 @@ func spawn_block(custom: Autoload.Piece = null, from_hold: bool = false):
 	
 	spawned.emit()
 
-func pc_move(mvmt: Vector3i, test: bool = false) -> bool:
-	var end: Array[Vector3i] = []
+func pc_move(mvmt: Vector4i, test: bool = false) -> bool:
+	var end: Array[Vector4i] = []
 	for i in moving.size():
 		end.append(moving[i] + mvmt)
 	var can_move = is_valid_position(end)
 	
 	if can_move && !test:
-		pivot += Vector3(mvmt)
+		pivot += Vector4(mvmt)
 		for i in moving.size():
 			gridmap.set_cell_item(moving[i], -1)
 			moving[i] = end[i]
@@ -108,9 +117,9 @@ func pc_move(mvmt: Vector3i, test: bool = false) -> bool:
 
 func pc_rotate(axes, test: bool = false) -> bool:
 	var can_move = true
-	var end: PackedVector3Array = []
+	var end: PackedVector4Array = []
 	for i in moving.size():
-		end.append(Vector3i(Transform3D(pc_rotate_basis[axes], pivot) * (Vector3(moving[i])-pivot)))
+		end.append(Vector4i(Transform3D(pc_rotate_basis[axes], pivot) * (Vector3(moving[i])-pivot)))
 	can_move = is_valid_position(end)
 	
 	if can_move && !test:
@@ -158,15 +167,17 @@ func pc_hold():
 
 func clear_line(y) -> bool:
 	var clearable = true
-	for x in range(min_pos_xz, max_pos_xz+1):
-		for z in range(min_pos_xz, max_pos_xz+1):
-			if gridmap.get_cell_item(Vector3i(x,y,z)) == -1:
-				clearable = false
-	
-	if clearable:
+	for w in gridmap.size():
 		for x in range(min_pos_xz, max_pos_xz+1):
 			for z in range(min_pos_xz, max_pos_xz+1):
-				gridmap.set_cell_item(Vector3i(x,y,z), -1)
+				if gridmap.get_cell_item(Vector4i(w,x,y,z)) == -1:
+					clearable = false
+	
+	if clearable:
+		for w in gridmap.size():
+			for x in range(min_pos_xz, max_pos_xz+1):
+				for z in range(min_pos_xz, max_pos_xz+1):
+					gridmap.set_cell_item(Vector4i(w,x,y,z), -1)
 		
 		var falling = []
 		for block in gridmap.get_used_cells():
@@ -176,7 +187,7 @@ func clear_line(y) -> bool:
 		if falling.size() > 0:
 			falling.sort_custom(func(a,b): return a.y < b.y)
 			for block in falling:
-				gridmap.set_cell_item(block - Vector3i(0,1,0), gridmap.get_cell_item(block))
+				gridmap.set_cell_item(block - Vector4i(0,0,1,0), gridmap.get_cell_item(block))
 				gridmap.set_cell_item(block, -1)
 	return clearable
 				
@@ -196,7 +207,7 @@ func pc_lock():
 
 func pc_scan_lowest(redraw: bool = true):
 	var drop_dist = 0
-	while pc_move(Vector3i(0,drop_dist - 1,0), true):
+	while pc_move(Vector4i(0,0,drop_dist - 1,0), true):
 		drop_dist -= 1
 	
 	for i in moving.size():
@@ -216,13 +227,13 @@ func _ready():
 
 func _process(_delta):
 	if Input.is_action_just_pressed("move_x-"):
-		pc_move(Vector3i(-1,0,0))
+		pc_move(Vector4i(0,-1,0,0))
 	if Input.is_action_just_pressed("move_x+"):
-		pc_move(Vector3i(1,0,0))
+		pc_move(Vector4i(0,1,0,0))
 	if Input.is_action_just_pressed("move_z-"):
-		pc_move(Vector3i(0,0,-1))
+		pc_move(Vector4i(0,0,0,-1))
 	if Input.is_action_just_pressed("move_z+"):
-		pc_move(Vector3i(0,0,1))
+		pc_move(Vector4i(0,0,0,1))
 	
 	if Input.is_action_just_pressed("rotate_wx+"):
 		pc_rotate(Vector4(false, true, true, false))
@@ -241,5 +252,5 @@ func _on_piece_locked():
 	spawn_block()
 
 func _on_move_timer_timeout():
-	if !pc_move(Vector3i(0,-1,0)):
+	if !pc_move(Vector4i(0,0,-1,0)):
 		pc_lock()

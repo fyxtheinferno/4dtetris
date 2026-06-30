@@ -87,6 +87,19 @@ offset_right = 1024.0
 offset_bottom = 576.0
 color = Color(0.76240367, 0.76240367, 0.76240367, 0.49411765)
 
+[node name="ColorRect2" type="ColorRect" parent="UserInterface/GameOver" unique_id=1949699604]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 25.6
+anchor_bottom = 14.4
+offset_left = 370.0
+offset_top = 240.0
+offset_right = -370.0
+offset_bottom = -240.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
 [node name="Label" type="Label" parent="UserInterface/GameOver" unique_id=224294239]
 layout_mode = 0
 offset_right = 1024.0
@@ -108,10 +121,9 @@ offset_right = 40.0
 offset_bottom = 40.0
 script = ExtResource("1_aqk2v")
 
-[node name="PcSpawner" type="Node3D" parent="." unique_id=198380515 node_paths=PackedStringArray("gridmap")]
+[node name="PcSpawner" type="Node3D" parent="." unique_id=198380515]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 9.5, -1)
 script = ExtResource("1_fj7yv")
-gridmap = NodePath("../GridMap")
 preview = ExtResource("4_dwbse")
 
 [node name="MoveTimer" type="Timer" parent="PcSpawner" unique_id=1936100473]
@@ -142,11 +154,72 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 11)
 projection = 1
 size = 19.296116
 
-[node name="W=1" type="Node3D" parent="." unique_id=788477629]
+[node name="GridMap" type="GridMap" parent="W=0" unique_id=248734977]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0, 0.5)
+mesh_library = ExtResource("4_aqk2v")
+cell_size = Vector3(1, 1, 1)
+metadata/_editor_floor_ = Vector3(0, -10, 0)
 
-[node name="W=2" type="Node3D" parent="." unique_id=1938707813]
+[node name="W=1" type="Node3D" parent="." unique_id=872059538]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -30)
 
-[node name="GridMap" type="GridMap" parent="." unique_id=248734977]
+[node name="PlayField" parent="W=1" unique_id=1830158740 instance=ExtResource("3_aqk2v")]
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="W=1" unique_id=1184061619]
+z_index = -1
+offset_left = 320.0
+offset_top = 20.0
+offset_right = 520.0
+offset_bottom = 520.0
+metadata/_edit_use_anchors_ = true
+
+[node name="SubViewport" type="SubViewport" parent="W=1/SubViewportContainer" unique_id=1580417183]
+handle_input_locally = false
+size = Vector2i(200, 500)
+render_target_update_mode = 4
+
+[node name="CameraPivot" type="Marker3D" parent="W=1/SubViewportContainer/SubViewport" unique_id=1107786341]
+transform = Transform3D(0.70710665, -0.49999994, 0.4999998, 0, 0.70710665, 0.7071066, -0.70710665, -0.49999994, 0.4999998, -1, 0, -31)
+script = ExtResource("7_gbfbk")
+
+[node name="Camera3D" type="Camera3D" parent="W=1/SubViewportContainer/SubViewport/CameraPivot" unique_id=497148654]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 11)
+projection = 1
+size = 19.296116
+
+[node name="GridMap" type="GridMap" parent="W=1" unique_id=201683764]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0, 0.5)
+mesh_library = ExtResource("4_aqk2v")
+cell_size = Vector3(1, 1, 1)
+metadata/_editor_floor_ = Vector3(0, -10, 0)
+
+[node name="W=2" type="Node3D" parent="." unique_id=1495652009]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -60)
+
+[node name="PlayField" parent="W=2" unique_id=686803434 instance=ExtResource("3_aqk2v")]
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="W=2" unique_id=795066049]
+z_index = -1
+offset_left = 520.0
+offset_top = 20.0
+offset_right = 720.0
+offset_bottom = 520.0
+
+[node name="SubViewport" type="SubViewport" parent="W=2/SubViewportContainer" unique_id=1727486388]
+handle_input_locally = false
+size = Vector2i(200, 500)
+render_target_update_mode = 4
+
+[node name="CameraPivot" type="Marker3D" parent="W=2/SubViewportContainer/SubViewport" unique_id=6018027]
+transform = Transform3D(0.70710665, -0.49999994, 0.4999998, 0, 0.70710665, 0.7071066, -0.70710665, -0.49999994, 0.4999998, -1, 0, -61)
+script = ExtResource("7_gbfbk")
+
+[node name="Camera3D" type="Camera3D" parent="W=2/SubViewportContainer/SubViewport/CameraPivot" unique_id=488042791]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 11)
+projection = 1
+size = 19.296116
+
+[node name="GridMap" type="GridMap" parent="W=2" unique_id=1487815032]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0, 0.5)
 mesh_library = ExtResource("4_aqk2v")
 cell_size = Vector3(1, 1, 1)
