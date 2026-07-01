@@ -11,3 +11,5 @@ func _unhandled_input(event):
 	if event.is_action_pressed("ui_accept") and visible:
 		# This restarts the current scene.
 		get_tree().reload_current_scene()
+	if event.is_action_pressed("ui_cancel") and visible:
+		get_tree().quit()
